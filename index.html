@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Srinivasa Travels | Discover Incredible India</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. ROYAL INDIA THEME --- */
+        :root {
+            --royal-blue: #0f172a;     /* Deep Indian Night */
+            --saffron: #FF9933;        /* India Saffron */
+            --gold: #FFD700;           /* Royal Gold */
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body { 
+            background-color: var(--royal-blue); 
+            color: var(--white); 
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent; /* Fix for iOS tap flash */
+        }
+
+        h1, h2, h3, .heritage-font { font-family: 'Cinzel Decorative', cursive; }
+
+        /* --- 2. DESKTOP ONLY: CUSTOM CURSOR --- */
+        /* We use a Media Query so this ONLY happens on computers with a mouse */
+        @media (min-width: 992px) {
+            * { cursor: none; } /* Hide default cursor only on PC */
+            
+            .cursor {
+                width: 20px; height: 20px;
+                border: 1px solid var(--gold);
+                border-radius: 50%;
+                position: fixed; pointer-events: none; z-index: 9999;
+                transform: translate(-50%, -50%);
+                transition: width 0.3s, height 0.3s, background 0.3s;
+                mix-blend-mode: difference;
+                display: block;
+            }
+            .cursor.hovered { width: 50px; height: 50px; background: rgba(255, 215, 0, 0.2); border-color: transparent; }
+        }
+
+        /* HIDE Custom Cursor on Mobile/Tablet */
+        @media (max-width: 991px) {
+            .cursor { display: none !important; }
+            * { cursor: auto !important; }
+        }
+
+        /* --- 3. NAMASTE PRELOADER --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease;
+        }
+        .namaste-text { 
+            font-size: 30px; color: var(--saffron); letter-spacing: 5px; 
+            text-transform: uppercase; animation: fadeText 2s infinite; 
+        }
+        .loading-bar { width: 0; height: 2px; background: var(--white); margin-top: 20px; animation: loadBar 2s forwards; }
+        
+        @keyframes loadBar { to { width: 200px; } }
+        @keyframes fadeText { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* --- 4. NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: 0.4s;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+        nav.scrolled { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+
+        .logo { font-size: 20px; font-weight: 700; color: var(--white); text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--saffron); }
+
+        .nav-links { display: flex; gap: 40px; }
+        .nav-link { color: white; text-transform: uppercase; font-size: 12px; letter-spacing: 2px; position: relative; transition: 0.3s; text-decoration: none; }
+        .nav-link:hover { color: var(--gold); }
+        
+        .btn-india {
+            padding: 10px 25px;
+            background: linear-gradient(45deg, var(--saffron), #e67e22);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 11px; letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(255, 153, 51, 0.4);
+            transition: 0.3s; text-decoration: none; display: inline-block;
+        }
+        .btn-india:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 153, 51, 0.6); }
+
+        /* --- 5. CINEMATIC HERO --- */
+        .hero {
+            height: 100vh; /* Fallback */
+            height: 100svh; /* Better for Mobile Browsers */
+            position: relative; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden;
+            background: #0f172a; /* Fallback color if video fails */
+        }
+        .video-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 0%, #0f172a 100%);
+        }
+        .hero-content { position: relative; z-index: 2; padding: 20px; width: 100%; }
+        
+        .chakra-spin { animation: spin 10s linear infinite; display: inline-block; color: var(--saffron); font-size: 24px; margin-bottom: 20px; }
+        
+        .hero h1 {
+            font-size: 60px; line-height: 1.1; margin-bottom: 20px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .hero p { font-size: 16px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; color: #ddd; }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- 6. REGION SELECTOR (Glass Cards) --- */
+        .section { padding: 80px 5%; position: relative; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-title { font-size: 40px; color: var(--gold); margin-bottom: 15px; }
+        .section-desc { color: #aaa; max-width: 600px; margin: 0 auto; line-height: 1.6; font-size: 14px; }
+
+        .region-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+        }
+
+        .region-card {
+            height: 400px; position: relative; overflow: hidden; border-radius: 10px; cursor: pointer;
+            transition: 0.5s; border: 1px solid var(--border);
+        }
+        .region-card:hover { transform: translateY(-10px); border-color: var(--saffron); }
+
+        .region-img { width: 100%; height: 100%; object-fit: cover; transition: 0.7s; }
+        .region-card:hover .region-img { transform: scale(1.1); filter: grayscale(0%); }
+
+        .region-content {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
+            background: linear-gradient(to top, black, transparent);
+        }
+        .region-name { font-size: 20px; color: white; margin-bottom: 5px; }
+        .region-desc { font-size: 11px; color: var(--saffron); text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- 7. FEATURED EXPERIENCES (Scroll Horizontal) --- */
+        .exp-container {
+            display: flex; overflow-x: auto; gap: 20px; padding-bottom: 30px;
+            -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+            scrollbar-width: none;
+        }
+        .exp-container::-webkit-scrollbar { display: none; }
+
+        .exp-card {
+            min-width: 300px; background: var(--glass); border: 1px solid var(--border);
+            border-radius: 20px; padding: 15px; transition: 0.3s;
+        }
+        .exp-card:hover { background: rgba(255,255,255,0.1); }
+        
+        .exp-img { width: 100%; height: 200px; border-radius: 15px; object-fit: cover; margin-bottom: 15px; }
+        .exp-title { font-size: 18px; margin-bottom: 10px; color: var(--white); }
+        .exp-price { font-size: 16px; color: var(--gold); font-weight: 700; }
+
+        /* --- 8. INDIA MAP STATS --- */
+        .stats-section {
+            background: linear-gradient(to right, #1a1a1a, #0f172a);
+            padding: 60px 5%; display: flex; justify-content: space-around; text-align: center;
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .stat-num { font-size: 40px; color: var(--saffron); font-weight: 700; font-family: 'Cinzel Decorative'; }
+        .stat-label { color: #888; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; margin-top: 10px; }
+
+        /* --- 9. FOOTER --- */
+        footer { padding: 60px 5% 30px; background: #050505; text-align: center; }
+        .footer-logo { font-size: 30px; margin-bottom: 20px; color: var(--white); }
+        .footer-links { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .footer-links a { color: #666; font-size: 13px; text-decoration: none; transition: 0.3s; }
+        .footer-links a:hover { color: var(--saffron); }
+        
+        .contact-owner {
+            margin-top: 30px; border: 1px solid var(--border); display: inline-block; padding: 30px; width: 100%; max-width: 500px;
+        }
+
+        /* --- MOBILE OPTIMIZATIONS --- */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 40px; }
+            .region-grid { grid-template-columns: 1fr; }
+            .stats-section { flex-direction: column; gap: 30px; }
+            .nav-links { display: none; }
+            .cursor { display: none; } /* Double ensure cursor is hidden */
+            .btn-india { padding: 8px 20px; font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor" id="cursor"></div>
+
+    <div id="preloader">
+        <div class="namaste-text">Namaste</div>
+        <div class="loading-bar"></div>
+    </div>
+
+    <nav id="navbar">
+        <div class="logo">Srinivasa <span>Travels</span></div>
+        <div class="nav-links">
+            <a href="#" class="nav-link">Home</a>
+            <a href="#north" class="nav-link">Himalayas</a>
+            <a href="#south" class="nav-link">Temple Run</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+        <a href="tel:6369464364" class="btn-india">Plan My Trip</a>
+    </nav>
+
+    <header class="hero">
+        <video class="video-bg" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1000">
+            <source src="https://videos.pexels.com/video-files/3971351/3971351-uhd_2560_1440_25fps.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <i class="fas fa-dharmachakra chakra-spin"></i>
+            <h1 class="heritage-font">Incredible <span style="color:var(--saffron);">India</span></h1>
+            <p>From the Snow of Kashmir to the Sands of Kanyakumari</p>
+            <a href="#regions" class="btn-india" style="padding: 15px 40px; font-size: 14px;">Start Exploring</a>
+        </div>
+    </header>
+
+    <div class="stats-section">
+        <div class="stat-box">
+            <div class="stat-num">28</div>
+            <div class="stat-label">States Covered</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">10k+</div>
+            <div class="stat-label">Happy Pilgrims</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">08+</div>
+            <div class="stat-label">Years of Trust</div>
+        </div>
+    </div>
+
+    <section id="regions" class="section">
+        <div class="section-header">
+            <h2 class="section-title heritage-font">Discover by Region</h2>
+            <p class="section-desc">We connect the dots of this vast nation. Choose your direction.</p>
+        </div>
+
+        <div class="region-grid">
+            <div class="region-card hover-trigger">
+                <img src="https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=600" class="region-img" alt="North India">
+                <div class="region-content">
+                    <div class="region-name heritage-font">North India</div>
+                    <div class="region-desc">Kashmir • Delhi • Agra</div>
+                </div>
+            </div>
+            <div class="region-card hover-trigger">
+                <img src="https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=600" class="region-img" alt="South India">
+                <div class="region-content">
+                    <div class="region-name heritage-font">South India</div>
+                    <div class="region-desc">Kerala • Tamil Nadu • Hampi</div>
+                </div>
+            </div>
+            <div class="region-card hover-trigger">
+                <img src="https://images.unsplash.com/photo-1582110271018-b71542f5923b?w=600" class="region-img" alt="West India">
+                <div class="region-content">
+                    <div class="region-name heritage-font">West India</div>
+                    <div class="region-desc">Goa • Rajasthan • Gujarat</div>
+                </div>
+            </div>
+            <div class="region-card hover-trigger">
+                <img src="https://images.unsplash.com/photo-1528652643809-5a9e334a1708?w=600" class="region-img" alt="East India">
+                <div class="region-content">
+                    <div class="region-name heritage-font">East India</div>
+                    <div class="region-desc">Darjeeling • Kolkata • Sikkim</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section-title heritage-font">Trending Journeys</h2>
+            <p class="section-desc">Our most booked experiences across the subcontinent.</p>
+        </div>
+
+        <div class="exp-container">
+            <div class="exp-card hover-trigger">
+                <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=600" class="exp-img" alt="Taj Mahal">
+                <div class="exp-title heritage-font">The Taj Mahal Tour</div>
+                <div style="font-size: 13px; color: #aaa; margin-bottom: 15px;">3 Days • Delhi - Agra - Jaipur</div>
+                <div class="exp-price">₹14,500</div>
+            </div>
+
+            <div class="exp-card hover-trigger">
+                <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=600" class="exp-img" alt="Kerala">
+                <div class="exp-title heritage-font">Kerala Backwaters</div>
+                <div style="font-size: 13px; color: #aaa; margin-bottom: 15px;">5 Days • Alleppey - Munnar</div>
+                <div class="exp-price">₹18,000</div>
+            </div>
+
+            <div class="exp-card hover-trigger">
+                <img src="https://images.unsplash.com/photo-1566830646346-6819430037a5?w=600" class="exp-img" alt="Kashmir">
+                <div class="exp-title heritage-font">Kashmir Paradise</div>
+                <div style="font-size: 13px; color: #aaa; margin-bottom: 15px;">6 Days • Srinagar - Gulmarg</div>
+                <div class="exp-price">₹22,500</div>
+            </div>
+
+            <div class="exp-card hover-trigger">
+                <img src="https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=600" class="exp-img" alt="Varanasi">
+                <div class="exp-title heritage-font">Varanasi Spiritual</div>
+                <div style="font-size: 13px; color: #aaa; margin-bottom: 15px;">3 Days • Ganga Aarti - Temples</div>
+                <div class="exp-price">₹12,000</div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-logo heritage-font">Srinivasa <span>Travels</span></div>
+        <p style="color:#888;">Connecting you to the Divine and the Beautiful across India.</p>
+
+        <div class="contact-owner">
+            <p style="color:var(--saffron); text-transform:uppercase; font-size:12px; letter-spacing:2px;">Plan Your India Trip</p>
+            <h3 style="font-size: 26px; margin: 15px 0;">Mr. Sudhakar</h3>
+            <a href="tel:6369464364" style="font-size: 22px; color:white; text-decoration: none;">+91 63694 64364</a>
+            <p style="margin-top: 15px; font-size: 14px; color: #666;">Trichy, Tamil Nadu - Serving All India</p>
+        </div>
+
+        <div class="footer-links">
+            <a href="#">Packages</a>
+            <a href="#">Destinations</a>
+            <a href="#">About Us</a>
+            <a href="#">Terms</a>
+        </div>
+        
+        <p style="margin-top: 40px; color:#444; font-size:12px;">© 2026 Srinivasa Travels. The Best in India.</p>
+    </footer>
+
+    <script>
+        // 1. IMPROVED PRELOADER (With timeout backup)
+        window.addEventListener('load', () => {
+            hidePreloader();
+        });
+
+        // Backup: Hide preloader after 4 seconds even if video isn't loaded yet (Fix for slow mobile)
+        setTimeout(() => {
+            hidePreloader();
+        }, 4000);
+
+        function hidePreloader() {
+            const loader = document.getElementById('preloader');
+            if(loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 1000);
+            }
+        }
+
+        // 2. CUSTOM CURSOR (Only runs if screen is wide - Desktop)
+        if (window.innerWidth > 992) {
+            const cursor = document.getElementById('cursor');
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            const hoverElements = document.querySelectorAll('.hover-trigger, a, button');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+            });
+        }
+
+        // 3. NAVBAR SCROLL
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if(window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>
